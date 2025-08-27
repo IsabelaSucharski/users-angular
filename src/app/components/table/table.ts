@@ -1,9 +1,8 @@
-import { Component, Input, } from '@angular/core';
+import { Component } from '@angular/core';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTableModule } from '@angular/material/table';
-import { MatTableDataSource } from '@angular/material/table';
 
 import { CommonModule } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
 
 export interface User {
   id: number;
@@ -13,36 +12,35 @@ export interface User {
   last_name: string;
 }
 
-
-import { OnInit, OnChanges, SimpleChanges } from '@angular/core';
+import { Users } from '../../services/users';
 
 @Component({
   selector: 'app-table',
-  imports: [MatTableModule, CommonModule],
+  standalone: true,
+  imports: [CommonModule, MatTableModule, MatIconModule],
   templateUrl: './table.html',
-  styleUrl: './table.css'
+  styleUrl: './table.css',
 })
-export class Table implements OnInit, OnChanges {
+export class Table {
+  displayedColumns: string[] = ['id', 'email', 'name', 'actions'];
 
-  constructor(private cdr: ChangeDetectorRef) { }
-
-  displayedColumns: string[] = ['id', 'avatar', 'email', 'first_name', 'last_name', 'actions'];
-
-  @Input() users: User[] = [];
-
-  dataSource = new MatTableDataSource<User>();
+  constructor(public usersService: Users) {
+    this.usersService.getUsersList(1, 10);
+  }
 
   ngOnInit() {
-    this.dataSource.data = this.users || [];
-    console.log(this.dataSource);
+    console.log(this.users);
   }
 
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['users']) {
-      this.dataSource.data = this.users || [];
-      this.cdr.detectChanges(); // força atualização da view
-      console.log(this.dataSource.data);
-    }
+  get isLoading() {
+    return this.usersService.loading();
   }
 
+  get hasError() {
+    return this.usersService.error();
+  }
+
+  get users() {
+    return this.usersService.users();
+  }
 }

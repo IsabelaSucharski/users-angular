@@ -1,7 +1,10 @@
-<mat-toolbar>
-    <span>Custom Toolbar</span>
-</mat-toolbar>
+<!-- @if(isLoading){
+<p>Loading...</p>
+}
+@else{ -->
+<app-navbar></app-navbar>
 
 <mat-card class="example-card" appearance="raised">
-    <app-table [users]="this.users"></app-table>
+    <app-table></app-table>
 </mat-card>
+<!-- } -->

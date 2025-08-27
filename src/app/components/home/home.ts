@@ -1,29 +1,22 @@
 import { Component } from '@angular/core';
-import { Users } from '../../services/users';
-import { Table } from '../table/table';
 import { MatCardModule } from '@angular/material/card';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { Users } from '../../services/users';
+import { Navbar } from '../navbar/navbar';
+import { Table } from '../table/table';
 
 @Component({
+  providers: [Users],
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.css',
-  imports: [Table, MatCardModule, MatToolbarModule]
+  imports: [Table, MatCardModule, MatToolbarModule, Navbar],
 })
 export class HomeComponent {
-
-  users = [];
-  page = 1;
-  per_page = 10;
-
   constructor(private usersService: Users) {}
+  users = [];
 
-  ngOnInit() {
-    this.usersService.getUsersList(this.page, this.per_page).then(users => {
-      this.users = users;
-      console.log(this.users);
-    });
-  }
-
-
+  // get isLoading() {
+  //   return this.usersService.loading(); // acessa o valor do sinal
+  // }
 }
