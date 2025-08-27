@@ -1,1 +1,7 @@
-<app-table [users]="users"></app-table>
+<mat-toolbar>
+    <span>Custom Toolbar</span>
+</mat-toolbar>
+
+<mat-card class="example-card" appearance="raised">
+    <app-table [users]="this.users"></app-table>
+</mat-card>

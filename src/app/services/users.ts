@@ -5,8 +5,8 @@ import { Injectable } from '@angular/core';
 })
 export class Users {
 
-  async getUsersList() {
-    const response = await fetch('https://reqres.in/api/users', {
+  async getUsersList(page: number, per_page: number) {
+    const response = await fetch(`https://reqres.in/api/users?page=${page}&per_page=${per_page}`, {
       headers: {
         'x-api-key': 'reqres-free-v1'
       }
