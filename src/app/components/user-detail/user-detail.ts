@@ -1,23 +1,22 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { ActivatedRoute } from '@angular/router';
 import { Users } from '../../services/users';
-import { CommonModule } from '@angular/common';
+import { Card } from '../card/card';
 
 @Component({
   selector: 'app-user-detail',
-  imports: [CommonModule],
+  imports: [CommonModule, MatCardModule, MatGridListModule, Card],
   standalone: true,
   templateUrl: './user-detail.html',
-  styleUrl: './user-detail.css'
+  styleUrl: './user-detail.css',
 })
 export class UserDetail implements OnInit {
-
-  constructor(
-    private route: ActivatedRoute,
-    private usersService: Users
-  ) {
+  constructor(private route: ActivatedRoute, private usersService: Users) {
     const id = Number(this.route.snapshot.paramMap.get('id'));
-    this.usersService.getUserDetail(id)
+    this.usersService.getUserDetail(id);
   }
 
   get user() {
@@ -27,5 +26,4 @@ export class UserDetail implements OnInit {
   ngOnInit() {
     console.log(this.user);
   }
-
 }

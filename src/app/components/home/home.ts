@@ -1,8 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Users } from '../../services/users';
+import { Card } from '../card/card';
 import { Navbar } from '../navbar/navbar';
 import { Table } from '../table/table';
 
@@ -11,10 +12,14 @@ import { Table } from '../table/table';
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.css',
-  imports: [Table, MatCardModule, MatToolbarModule, Navbar, MatGridListModule],
+  imports: [Table, MatCardModule, MatToolbarModule, Navbar, MatGridListModule, Card],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   constructor(public usersService: Users) {}
   users = [];
   title = 'Userssss';
+
+  ngOnInit() {
+    console.log(this.usersService.loading());
+  }
 }

@@ -1,11 +1,4 @@
 <app-navbar [title]="title()" style="position: fixed; width: 100%; z-index: 1000;"></app-navbar>
 <div style="padding-top: 64px;"><!-- ajuste o padding conforme a altura do navbar -->
-    <mat-grid-list cols="1" rowHeight="2:1">
-        <mat-grid-tile [rowspan]="1" [colspan]="1">
-            <mat-card appearance="outlined">
-                <router-outlet></router-outlet>
-            </mat-card>
-        </mat-grid-tile>
-    </mat-grid-list>
-
+    <router-outlet></router-outlet>
 </div>
