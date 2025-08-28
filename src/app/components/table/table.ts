@@ -13,6 +13,7 @@ export interface User {
 }
 
 import { Users } from '../../services/users';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-table',
@@ -24,7 +25,7 @@ import { Users } from '../../services/users';
 export class Table {
   displayedColumns: string[] = ['id', 'email', 'name', 'actions'];
 
-  constructor(public usersService: Users) {
+  constructor(public usersService: Users, private router: Router) {
     this.usersService.getUsersList(1, 10);
   }
 
@@ -42,5 +43,9 @@ export class Table {
 
   get users() {
     return this.usersService.users();
+  }
+
+  goToUser(userId: number) {
+    this.router.navigate(['/users', userId]);
   }
 }

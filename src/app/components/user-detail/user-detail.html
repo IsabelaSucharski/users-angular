@@ -1,0 +1,6 @@
+@if(user){
+<h2>Detalhes do Usuário</h2>
+<img [src]="user.avatar" alt="Foto de {{ user.first_name }}" />
+<p><strong>Nome:</strong> {{ user.first_name }} {{ user.last_name }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+}

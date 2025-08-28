@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { MatToolbarModule } from '@angular/material/toolbar';
 
 @Component({
@@ -7,4 +7,11 @@ import { MatToolbarModule } from '@angular/material/toolbar';
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
 })
-export class Navbar {}
+export class Navbar {
+
+  // title = 'Users';
+
+  constructor() {}
+
+  @Input() title: string = 'Users';
+}

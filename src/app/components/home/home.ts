@@ -13,10 +13,8 @@ import { Table } from '../table/table';
   imports: [Table, MatCardModule, MatToolbarModule, Navbar],
 })
 export class HomeComponent {
-  constructor(private usersService: Users) {}
+  constructor(public usersService: Users) { }
   users = [];
+  title = 'Userssss';
 
-  // get isLoading() {
-  //   return this.usersService.loading(); // acessa o valor do sinal
-  // }
 }

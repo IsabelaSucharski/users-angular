@@ -23,11 +23,17 @@
 
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Ações </th>
+
+
         <td mat-cell *matCellDef="let user">
+              <button mat-icon-button color="primary" (click)="goToUser(user.id)">
+                <mat-icon>open_in_new</mat-icon>
+            </button>
+
             <button mat-icon-button color="primary">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn">
+            <button mat-icon-button color="warn" (click)="usersService.deleteUser(user.id)">
                 <mat-icon>delete</mat-icon>
             </button>
         </td>
