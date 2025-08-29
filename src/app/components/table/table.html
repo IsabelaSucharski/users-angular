@@ -32,7 +32,8 @@
                 <mat-icon>open_in_new</mat-icon>
             </button>
 
-            <button mat-icon-button color="primary" (click)="openEditModal(user.id, user.first_name, user.last_name, user.email)">
+            <button mat-icon-button color="primary"
+                (click)="openEditModal(user.id, user.first_name, user.last_name, user.email)">
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="usersService.deleteUser(user.id)">
@@ -46,4 +47,8 @@
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
 </table>
+
+<mat-paginator [length]="totalUsers" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 50]"
+    (page)="onPageChange($event)">
+</mat-paginator>
 }

@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { User } from '../components/table/table';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { User } from '../components/table/table';
 
 @Injectable({
   providedIn: 'root',
@@ -17,6 +17,7 @@ export class Users {
     this._snackBar.open(message, action);
   }
 
+  totalUsers = signal(0);
 
   async getUsersList(page: number, per_page: number) {
     this.loading.set(true);
@@ -32,6 +33,7 @@ export class Users {
       const data = await response.json();
 
       this.users.set(data.data || []);
+      this.totalUsers.set(data.total || 0);
     } catch (err: any) {
       this.error.set(err.message || 'Erro ao buscar usuários');
     } finally {
@@ -40,7 +42,6 @@ export class Users {
   }
 
   async getUserDetail(id: number) {
-
     try {
       const response = await fetch(`https://reqres.in/api/users/${id}`, {
         headers: {
@@ -76,30 +77,28 @@ export class Users {
 
   // update user
   async updateUser(user: User) {
-  try {
-    const response = await fetch(`https://reqres.in/api/users/${user.id}`, {
-      method: 'PUT',
-      headers: {
-        'x-api-key': 'reqres-free-v1',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(user), // ✅ enviar os dados editados
-    });
+    try {
+      const response = await fetch(`https://reqres.in/api/users/${user.id}`, {
+        method: 'PUT',
+        headers: {
+          'x-api-key': 'reqres-free-v1',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(user), // ✅ enviar os dados editados
+      });
 
-    const data = await response.json();
+      const data = await response.json();
 
-    if (response.ok) {
-      this.users.update((users) =>
-        users.map((u) => (u.id === user.id ? { ...u, ...user } : u))
-      );
-      this.openSnackBar('Usuário atualizado com sucesso', 'Fechar');
-    } else {
-      this.error.set('Erro ao atualizar usuário');
+      if (response.ok) {
+        this.users.update((users) => users.map((u) => (u.id === user.id ? { ...u, ...user } : u)));
+        this.openSnackBar('Usuário atualizado com sucesso', 'Fechar');
+      } else {
+        this.error.set('Erro ao atualizar usuário');
+      }
+
+      return data.data || {};
+    } catch (err: any) {
+      this.error.set(err.message || 'Erro ao atualizar usuário');
     }
-
-    return data.data || {};
-  } catch (err: any) {
-    this.error.set(err.message || 'Erro ao atualizar usuário');
   }
-}
 }
