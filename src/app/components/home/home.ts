@@ -4,7 +4,6 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { Users } from '../../services/users';
 import { Card } from '../card/card';
-import { Navbar } from '../navbar/navbar';
 import { Table } from '../table/table';
 
 @Component({
@@ -12,6 +11,7 @@ import { Table } from '../table/table';
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.css',
+  standalone: true,
   imports: [Table, MatCardModule, MatToolbarModule, MatGridListModule, Card],
 })
 export class HomeComponent implements OnInit {

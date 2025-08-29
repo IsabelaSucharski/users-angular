@@ -1,4 +1,4 @@
-@if(user){
+@if(user && !isLoading){
 <app-card>
     <h2>Detalhes do Usuário</h2>
     <img [src]="user.avatar" alt="Foto de {{ user.first_name }}" style="width: 100px" />
@@ -6,4 +6,8 @@
     <p><strong>Email:</strong> {{ user.email }}</p>
     <a href="/">Voltar</a>
 </app-card>
+}
+@else if(isLoading && !user)
+{
+<app-spinner></app-spinner>
 }

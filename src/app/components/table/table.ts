@@ -1,9 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
-
-import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
+import { Users } from '../../services/users';
+import { DeleteModal } from '../delete-modal/delete-modal';
+import { EditModal } from '../edit-modal/edit-modal';
+import { Spinner } from '../spinner/spinner';
 
 export interface User {
   id: number;
@@ -13,16 +20,18 @@ export interface User {
   last_name: string;
 }
 
-import { MatButtonModule } from '@angular/material/button';
-import { MatDialog } from '@angular/material/dialog';
-import { Router } from '@angular/router';
-import { Users } from '../../services/users';
-import { EditModal } from '../edit-modal/edit-modal';
-
 @Component({
   selector: 'app-table',
   standalone: true,
-  imports: [CommonModule, MatTableModule, MatIconModule, MatButtonModule, MatPaginatorModule],
+  imports: [
+    CommonModule,
+    MatTableModule,
+    MatIconModule,
+    MatButtonModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    Spinner,
+  ],
   templateUrl: './table.html',
   styleUrl: './table.css',
 })
@@ -33,7 +42,7 @@ export class Table implements OnInit {
   page_size = 5;
 
   constructor(public usersService: Users, private router: Router, private dialog: MatDialog) {
-    this.usersService.getUsersList(this.page, this.page_size);
+    this.usersService.getUsersList(this.page, this.page_size).subscribe();
   }
 
   ngOnInit() {}
@@ -65,7 +74,19 @@ export class Table implements OnInit {
 
     dialogRef.afterClosed().subscribe(async (result) => {
       if (result) {
-        await this.usersService.updateUser(result);
+        this.usersService.updateUser(result).subscribe();
+      }
+    });
+  }
+
+  openDeleteModal(userId: number) {
+    const dialogRef = this.dialog.open(DeleteModal, {
+      data: { id: userId },
+    });
+
+    dialogRef.afterClosed().subscribe(async (result) => {
+      if (result) {
+        this.usersService.deleteUser(userId).subscribe();
       }
     });
   }
@@ -73,6 +94,6 @@ export class Table implements OnInit {
   onPageChange(event: any) {
     this.page = event.pageIndex + 1;
     this.page_size = event.pageSize;
-    this.usersService.getUsersList(this.page, this.page_size);
+    this.usersService.getUsersList(this.page, this.page_size).subscribe();
   }
 }

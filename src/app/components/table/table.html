@@ -1,5 +1,4 @@
 @if(users.length > 0){
-
 <table mat-table [dataSource]="users">
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
@@ -9,7 +8,6 @@
         <th mat-header-cell *matHeaderCellDef> Nome </th>
         <td mat-cell *matCellDef="let user"> {{ user.first_name }} {{ user.last_name }} </td>
     </ng-container>
-
 
     <ng-container matColumnDef="email">
         <th mat-header-cell *matHeaderCellDef> Email </th>
@@ -25,8 +23,6 @@
 
     <ng-container matColumnDef="actions">
         <th mat-header-cell *matHeaderCellDef> Ações </th>
-
-
         <td mat-cell *matCellDef="let user">
             <button mat-icon-button color="primary" (click)="goToUser(user.id)">
                 <mat-icon>open_in_new</mat-icon>
@@ -36,7 +32,7 @@
                 (click)="openEditModal(user.id, user.first_name, user.last_name, user.email)">
                 <mat-icon>edit</mat-icon>
             </button>
-            <button mat-icon-button color="warn" (click)="usersService.deleteUser(user.id)">
+            <button mat-icon-button color="warn" (click)="openDeleteModal(user.id)">
                 <mat-icon>delete</mat-icon>
             </button>
         </td>
@@ -51,4 +47,10 @@
 <mat-paginator [length]="totalUsers" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 50]"
     (page)="onPageChange($event)">
 </mat-paginator>
+}
+@else if(!isLoading && users.length === 0) {
+<p>Nenhum usuário encontrado.</p>
+}
+@else if(isLoading) {
+<app-spinner></app-spinner>
 }
