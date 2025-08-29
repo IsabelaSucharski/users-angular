@@ -74,21 +74,32 @@ export class Users {
     }
   }
 
-  // create user
-  async createUser(user: any) {
-    try {
-      const response = await fetch(`https://reqres.in/api/users`, {
-        method: 'POST',
-        headers: {
-          'x-api-key': 'reqres-free-v1',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(user),
-      });
-      const data = await response.json();
-      return data.data || {};
-    } catch (err: any) {
-      this.error.set(err.message || 'Erro ao criar usuário');
+  // update user
+  async updateUser(user: User) {
+  try {
+    const response = await fetch(`https://reqres.in/api/users/${user.id}`, {
+      method: 'PUT',
+      headers: {
+        'x-api-key': 'reqres-free-v1',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(user), // ✅ enviar os dados editados
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      this.users.update((users) =>
+        users.map((u) => (u.id === user.id ? { ...u, ...user } : u))
+      );
+      this.openSnackBar('Usuário atualizado com sucesso', 'Fechar');
+    } else {
+      this.error.set('Erro ao atualizar usuário');
     }
+
+    return data.data || {};
+  } catch (err: any) {
+    this.error.set(err.message || 'Erro ao atualizar usuário');
   }
+}
 }

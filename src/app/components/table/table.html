@@ -32,7 +32,7 @@
                 <mat-icon>open_in_new</mat-icon>
             </button>
 
-            <button mat-icon-button color="primary">
+            <button mat-icon-button color="primary" (click)="openEditModal(user.id, user.first_name, user.last_name, user.email)">
                 <mat-icon>edit</mat-icon>
             </button>
             <button mat-icon-button color="warn" (click)="usersService.deleteUser(user.id)">

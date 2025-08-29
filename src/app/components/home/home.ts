@@ -12,7 +12,7 @@ import { Table } from '../table/table';
   selector: 'app-home',
   templateUrl: './home.html',
   styleUrl: './home.css',
-  imports: [Table, MatCardModule, MatToolbarModule, Navbar, MatGridListModule, Card],
+  imports: [Table, MatCardModule, MatToolbarModule, MatGridListModule, Card],
 })
 export class HomeComponent implements OnInit {
   constructor(public usersService: Users) {}
