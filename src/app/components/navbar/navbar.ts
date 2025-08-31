@@ -14,5 +14,5 @@ export class Navbar {
 
   constructor() {}
 
-  @Input() title: string = 'Users';
+  @Input() title: string = '';
 }

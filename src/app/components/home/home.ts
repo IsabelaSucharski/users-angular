@@ -14,12 +14,7 @@ import { Table } from '../table/table';
   standalone: true,
   imports: [Table, MatCardModule, MatToolbarModule, MatGridListModule, Card],
 })
-export class HomeComponent implements OnInit {
-  constructor(public usersService: Users) {}
-  users = [];
-  title = 'Userssss';
+export class Home {
+  constructor(public usersService: Users) { }
 
-  ngOnInit() {
-    console.log(this.usersService.loading());
-  }
 }

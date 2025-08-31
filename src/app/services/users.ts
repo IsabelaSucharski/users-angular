@@ -3,6 +3,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { catchError, map, Observable, of } from 'rxjs';
 import { User } from '../components/table/table';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -15,6 +16,8 @@ export class Users {
   totalUsers = signal(0);
 
   private _snackBar = inject(MatSnackBar);
+
+  router = inject(Router);
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action);
@@ -59,6 +62,7 @@ export class Users {
         }),
         catchError((err) => {
           this.error.set(err.message || 'Erro ao buscar usuário');
+          this.router.navigate(['/error']);
           return of(null);
         })
       );
@@ -76,6 +80,7 @@ export class Users {
           return true;
         }),
         catchError((err) => {
+          this.openSnackBar('Erro ao deletar usuário', 'Fechar');
           this.error.set(err.message || 'Erro ao deletar usuário');
           return of(false);
         })
@@ -99,6 +104,7 @@ export class Users {
           return data.data || null;
         }),
         catchError((err) => {
+          this.openSnackBar('Erro ao atualizar usuário', 'Fechar');
           this.error.set(err.message || 'Erro ao atualizar usuário');
           return of(null);
         })

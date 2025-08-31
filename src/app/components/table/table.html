@@ -1,5 +1,12 @@
-@if(users.length > 0){
-<table mat-table [dataSource]="users">
+@if(isLoading) {
+<app-spinner></app-spinner>
+}
+@else {
+
+<div style="text-align: end;"><input matInput type="text" placeholder="Buscar usuário..."
+        (input)="filterUsers($event.target.value)" /></div>
+
+<table mat-table [dataSource]="users.length > 0 ? users : []">
     <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>
         <td mat-cell *matCellDef="let user"> {{ user.id }} </td>
@@ -42,15 +49,17 @@
     <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
 
+    @if(!isLoading){
+    <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="4">Nenhum usuário encontrado.</td>
+    </tr>
+    }
+
+
 </table>
 
 <mat-paginator [length]="totalUsers" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 50]"
     (page)="onPageChange($event)">
 </mat-paginator>
-}
-@else if(!isLoading && users.length === 0) {
-<p>Nenhum usuário encontrado.</p>
-}
-@else if(isLoading) {
-<app-spinner></app-spinner>
+
 }
