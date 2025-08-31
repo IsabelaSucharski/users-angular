@@ -13,6 +13,5 @@ npm install
 To start a local development server, run:
 
 ```bash
-npm install
 ng serve
 ```
