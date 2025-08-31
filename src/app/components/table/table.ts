@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, OnChanges, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
@@ -11,7 +11,8 @@ import { Users } from '../../services/users';
 import { DeleteModal } from '../delete-modal/delete-modal';
 import { EditModal } from '../edit-modal/edit-modal';
 import { Spinner } from '../spinner/spinner';
-import { MatInput } from "@angular/material/input";
+import { MatInput, MatLabel } from "@angular/material/input";
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 export interface User {
   id: number;
@@ -32,7 +33,9 @@ export interface User {
     MatPaginatorModule,
     MatProgressSpinnerModule,
     Spinner,
-    MatInput
+    MatInput,
+    MatFormFieldModule,
+    MatLabel
   ],
   templateUrl: './table.html',
   styleUrl: './table.css',
@@ -40,7 +43,7 @@ export interface User {
 export class Table {
   displayedColumns: string[] = ['id', 'email', 'name', 'actions'];
 
-  dataSource: {
+  usersInitial: {
     data: User[],
     total: number
   } = { data: [], total: 0 };
@@ -51,7 +54,7 @@ export class Table {
 
   constructor(public usersService: Users, private router: Router, private dialog: MatDialog) {
     this.usersService.getUsersList(this.page, this.page_size).subscribe((data) => {
-      this.dataSource = data;
+      this.usersInitial = data;
     });
   }
 
@@ -105,14 +108,14 @@ export class Table {
     if (value.length >= 1) {
       const filterValue = value.trim().toLowerCase();
       this.usersService.users.set(
-        this.dataSource.data.filter((user) =>
+        this.usersInitial.data.filter((user) =>
           user.first_name.toLowerCase().includes(filterValue)
         )
       );
       this.usersService.totalUsers.set(this.usersService.users().length);
     } else {
-      this.usersService.users.set(this.dataSource.data);
-      this.usersService.totalUsers.set(this.dataSource.total);
+      this.usersService.users.set(this.usersInitial.data);
+      this.usersService.totalUsers.set(this.usersInitial.total);
     }
   }
 }
