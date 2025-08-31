@@ -1,4 +1,4 @@
-@if(isLoading) {
+@if(isLoading && users.length === 0) {
 <app-spinner></app-spinner>
 }
 @else {
@@ -62,9 +62,7 @@
 
 
 </table>
-
 <mat-paginator [length]="totalUsers" [pageSize]="page_size" [pageSizeOptions]="[5, 10, 25, 50]"
     (page)="onPageChange($event)">
 </mat-paginator>
-
 }
