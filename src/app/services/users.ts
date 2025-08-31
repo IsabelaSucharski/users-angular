@@ -76,6 +76,7 @@ export class Users {
       .pipe(
         map(() => {
           this.users.update((users) => users.filter((user) => user.id !== id));
+          this.totalUsers.update((total) => total - 1);
           this.openSnackBar('Usuário deletado com sucesso', 'Fechar');
           return true;
         }),
